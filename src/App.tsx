@@ -1,26 +1,60 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Box, Grid, Typography } from "@mui/material";
+import { CocktailCard } from "./components/cocktail-card.component";
+import { FC, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Dispatch, RootState } from "./store/store";
+import {
+  favouriteCocktailNames,
+  favouriteCocktailsCount,
+} from "./store/models/cocktail.model";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+export const App: FC = (): JSX.Element => {
+  const dispatch = useDispatch<Dispatch>();
+
+  const favCocktailCount = useSelector(favouriteCocktailsCount);
+  const favCocktailNames = useSelector(favouriteCocktailNames);
+
+  const cocktailList = useSelector(
+    (state: RootState) => state.cocktailStore.cocktailList
   );
-}
 
-export default App;
+  useEffect(() => {
+    dispatch.cocktailStore.fetchCocktailList();
+  }, [dispatch]);
+
+  return (
+    <>
+      <Box display="flex" flexDirection="row" mb="2rem">
+        <Typography>Favourite Cocktail Count: {favCocktailCount}</Typography>
+
+        <Box
+          border="2px solid blue"
+          width="16rem"
+          padding="0.4rem"
+          borderRadius="0.25rem"
+          ml="2rem"
+        >
+          <Typography variant="h6" color="green">
+            Favourite Cocktail Names
+          </Typography>
+
+          {favCocktailNames.map((cocktailName) => {
+            return (
+              <Typography variant="body1" color="blue">
+                * {cocktailName}
+              </Typography>
+            );
+          })}
+        </Box>
+      </Box>
+
+      <Grid container justifyContent="center" spacing="1rem">
+        {cocktailList.map((cocktail, index) => (
+          <Grid key={index} item xs={2}>
+            <CocktailCard key={cocktail.cocktailId} cocktailInfo={cocktail} />
+          </Grid>
+        ))}
+      </Grid>
+    </>
+  );
+};
