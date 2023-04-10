@@ -7,8 +7,8 @@
 ## Installation Guide
 
 ```bash
-git clone https://github.com/ShashikaVirajh/react-rematch-example.git
-cd react-rematch-example
+git https://github.com/ShashikaVirajh/react-rematch-select-example.git
+cd react-rematch-select-example
 yarn
 ```
 
@@ -27,8 +27,7 @@ Sometimes these APIs are not working. It must be due to the free plan of cocktai
 
 Typescript - for type safety
 Redux Rematch - as the redux library
-Rematch loading - for the handle api loading status
-Rematch persist - to persist data on store
+Rematch Select - to create custom selectors using rematch
 Mui - As the UI library
 Axios - to make API requests
 
